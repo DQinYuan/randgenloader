@@ -23,7 +23,7 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 
 返回值为一个json，格式如下：
 
-```json
+```
 {
     "Resp": "...",   //返回的内容，可以是任意数据类型
     "ErrorInfo": "Err",   //错误信息，字符串类型，若没有错误，则该字段为空字符串
@@ -49,7 +49,7 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 
 所有接口都可以任意通过GET或者POST的方式调用
 
-`/init`: 初始化loader
+#### `/init`: 初始化loader
 
 入参：
 
@@ -61,7 +61,7 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 
 正常情况下返回字符串OK
 
-```json
+```
 {
     "Resp": "OK",   
     "ErrorInfo": "",  
@@ -69,7 +69,7 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 ```
 
 
-`/loaddata`: 获得用于生成数据的sql
+#### `/loaddata`: 获得用于生成数据的sql
 
 入参：
 
@@ -85,7 +85,7 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 
 一个数组，数组中每个元素为一条sql
 
-```json
+```
 {
     "Resp": ["CREATE ...", "INSERT ...", ...],   
     "ErrorInfo": "",  
@@ -93,14 +93,14 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 ```
 
 
-`/query`: 获得测试的sql
+#### `/query`: 获得测试的sql
 
 入参：无
 
 出参：同`/loaddata`
 
 
-`/compare`：比较两个结果之间的区别
+#### `/compare`：比较两个结果之间的区别
 
 入参：
 
