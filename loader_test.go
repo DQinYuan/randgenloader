@@ -5,6 +5,7 @@ import (
 	"github.com/pmezard/go-difflib/difflib"
 	"io/ioutil"
 	"log"
+	"path/filepath"
 	"testing"
 )
 
@@ -38,12 +39,17 @@ func TestSplitDataAndGrammar(t *testing.T) {
 	fmt.Println(len(grammar))  // 3
 }
 
+func pwd() string {
+	s, _ := filepath.Abs(".")
+	return s
+}
+
 func TestLoader(t *testing.T) {
 	rl := new(RandgenLoader)
 
 	rl.Init("haha")
-	rl.confPath = "/home/dqyuan/language/Go/projects/randgenloader"
-	rl.resultPath = "/home/dqyuan/language/Go/projects/randgenloader"
+	rl.confPath = pwd()
+	rl.resultPath = pwd()
 	rl.rmPath = "/home/dqyuan/language/Mysql/randgenx"
 
 	zzContent, _ := ioutil.ReadFile("./yyzzs/example.zz")

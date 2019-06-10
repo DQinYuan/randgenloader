@@ -23,14 +23,25 @@ type RandgenLoader struct {
 	cachedQueries []string
 }
 
-const confPath = "/root/conf"
-const rmPath = "/root/randgenx"
-const resultPath = "/root/result"
+/*
+container env
+
+ConfPath = "/root/conf"
+RmPath = "/root/randgenx"
+ResultPath = "/root/result"
+*/
+const CONFPATH = "CONFPATH"
+const RMPATH  = "RMPATH"
+const RESULTPATH  = "RESULTPATH"
+
+var ConfPath = os.Getenv(CONFPATH)
+var RmPath = os.Getenv(RMPATH)
+var ResultPath = os.Getenv(RESULTPATH)
 
 func (rl *RandgenLoader) Init(testName string) {
-	rl.confPath = confPath
-	rl.resultPath = resultPath
-	rl.rmPath = rmPath
+	rl.confPath = ConfPath
+	rl.resultPath = ResultPath
+	rl.rmPath = RmPath
 	rl.testName = testName
 }
 
@@ -95,8 +106,8 @@ func execShell(dir string, s string, args ...string) (string, error) {
 	cmd := exec.Command(s, args...)
 
 	var out bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Stderr = &out
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 	cmd.Dir = dir
 	err := cmd.Run()
 
