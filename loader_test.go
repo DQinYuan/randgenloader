@@ -48,13 +48,13 @@ func TestLoader(t *testing.T) {
 	rl := new(RandgenLoader)
 
 	rl.Init("haha")
-	rl.confPath = pwd()
-	rl.resultPath = pwd()
-	rl.rmPath = "/home/dqyuan/language/Mysql/randgenx"
+	rl.ConfPath = pwd()
+	rl.ResultPath = pwd()
+	rl.RmPath = "/home/dqyuan/language/Mysql/randgenx"
 
 	zzContent, _ := ioutil.ReadFile("./yyzzs/example.zz")
 	yyContent, _ := ioutil.ReadFile("./yyzzs/example.yy")
-	ddls, err := rl.LoadData(string(zzContent), string(yyContent))
+	ddls, err := rl.LoadData(string(zzContent), string(yyContent), "testtest", "10")
 	if err != nil {
 		log.Fatalln(err)
 	}

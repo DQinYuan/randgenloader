@@ -3,12 +3,10 @@ package randgenloader
 import (
 	"encoding/json"
 	"fmt"
-	"log"
-	"net/http"
 	"testing"
 )
 
-func SessionTest(w http.ResponseWriter, r *http.Request) {
+/*func SessionTest(w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, sessionName)
 	if err != nil {
 		panic("session error")
@@ -27,7 +25,7 @@ func TestSession(t *testing.T) {
 	http.HandleFunc("/one", http.HandlerFunc(SessionTest))
 
 	http.ListenAndServe(":9090", nil)
-}
+}*/
 
 func TestMashal(t *testing.T) {
 	r := &resultStruct{"haha", "'testname' required"}

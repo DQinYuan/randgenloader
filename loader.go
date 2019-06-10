@@ -12,15 +12,15 @@ import (
 )
 
 type RandgenLoader struct {
-	testName string
+	TestName string
 	// 存放yyzz文件的path
-	confPath string
+	ConfPath string
 	//  存放结构的path
-	resultPath string
+	ResultPath string
 	//  randgen主目录
-	rmPath string
+	RmPath string
 
-	cachedQueries []string
+	CachedQueries []string
 }
 
 /*
@@ -39,23 +39,24 @@ var RmPath = os.Getenv(RMPATH)
 var ResultPath = os.Getenv(RESULTPATH)
 
 func (rl *RandgenLoader) Init(testName string) {
-	rl.confPath = ConfPath
-	rl.resultPath = ResultPath
-	rl.rmPath = RmPath
-	rl.testName = testName
+	rl.ConfPath = ConfPath
+	rl.ResultPath = ResultPath
+	rl.RmPath = RmPath
+	rl.TestName = testName
 }
 
-func (rl *RandgenLoader) LoadData(zzContent string, yyContent string) (sqls []string, err error) {
-	zzPath := fmt.Sprintf(filepath.Join(rl.confPath, "%s.zz"), rl.testName)
-	yyPath := fmt.Sprintf(filepath.Join(rl.confPath, "%s.yy"), rl.testName)
+func (rl *RandgenLoader) LoadData(zzContent string, yyContent string, dbname string, queries string) (sqls []string, err error) {
+	zzPath := fmt.Sprintf(filepath.Join(rl.ConfPath, "%s.zz"), rl.TestName)
+	yyPath := fmt.Sprintf(filepath.Join(rl.ConfPath, "%s.yy"), rl.TestName)
 	ioutil.WriteFile(zzPath, []byte(zzContent), os.ModePerm)
 	ioutil.WriteFile(yyPath, []byte(yyContent), os.ModePerm)
 
-	rPath := filepath.Join(rl.resultPath, rl.testName)
-	_, err = execShell(rl.rmPath, "perl", "gentest.pl",
+	rPath := filepath.Join(rl.ResultPath, rl.TestName)
+	_, err = execShell(rl.RmPath, "perl", "gentest.pl",
 		fmt.Sprintf("--dsn=dummy:file:%s", rPath),
 		fmt.Sprintf("--gendata=%s", zzPath),
-		fmt.Sprintf("--grammar=%s", yyPath))
+		fmt.Sprintf("--grammar=%s", yyPath),
+		fmt.Sprintf("--queries=%s", queries))
 
 	if err != nil {
 		return nil, err
@@ -71,7 +72,15 @@ func (rl *RandgenLoader) LoadData(zzContent string, yyContent string) (sqls []st
 	}
 
 	data, grammar := splitToDataAndGrammar(sqlBytes)
-	rl.cachedQueries = grammar
+	if dbname != "test" {
+		for i, d := range data {
+			if d == "USE test;" {
+				data[i] = fmt.Sprintf("USE %s;", dbname)
+			}
+		}
+	}
+
+	rl.CachedQueries = grammar
 
 	return data, nil
 }
@@ -85,7 +94,7 @@ func splitToDataAndGrammar(totalContent []byte) (data []string, grammar []string
 }
 
 func (rl *RandgenLoader) Query() (sqls []string) {
-	return rl.cachedQueries
+	return rl.CachedQueries
 }
 
 // r1为Mysql输出  r2为TiDB输出

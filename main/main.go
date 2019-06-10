@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"github.com/DQinYuan/randgenloader"
-	"net/http"
 )
 
 /*
@@ -13,16 +11,7 @@ export RESULTPATH=/home/dqyuan/language/Go/projects/randgenloader
  */
 
 func main() {
-	startServer()
+	randgenloader.StartServer()
 }
 
-func startServer() {
-	http.HandleFunc("/init", randgenloader.Init)
-	http.HandleFunc("/loaddata", randgenloader.LoadData)
-	http.HandleFunc("/query", randgenloader.Query)
-	http.HandleFunc("/Compare", randgenloader.Compare)
-	err := http.ListenAndServe(":9080", nil)
-	if err != nil {
-		fmt.Println(err)
-	}
-}
+
