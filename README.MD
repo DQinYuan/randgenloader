@@ -113,14 +113,14 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 出参：
 
 返回一个含有两个字段的对象，"Comment"字段表示比较器对这此次对比的评论，
-"Inconsistent"表示此次比较的定性结果，false表示
+"Consistent"表示此次比较的定性结果，false表示比较结果不一致，true表示比较结果一致
 
 ```json
 {
     "Resp":
         {
             "Comment":"--- Mysql\n+++ Tidb\n@@ -1 +1 @@\n-aaaaa\n+bbbbmj\n",
-            "consistent":false,
+            "Consistent":false,
         },
     "ErrorInfo":"",
 }
