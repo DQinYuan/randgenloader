@@ -31,8 +31,9 @@ func TestDiff(t *testing.T) {
 }
 
 func TestSplitDataAndGrammar(t *testing.T) {
-	origin := []byte("ddawww\nooooo\n/* follow is grammar sql */\namibgy\nkomaisa\n")
-	data, grammar := splitToDataAndGrammar(origin)
+	allContent, _ := ioutil.ReadFile("./haha")
+
+	data, grammar := splitToDataAndGrammar(allContent)
 	fmt.Println(data)   // [ddawww ooooo ]
 	fmt.Println(len(data))  // 3
 	fmt.Println(grammar)   // [amibgy komaisa ]

@@ -75,7 +75,10 @@ func (rl *RandgenLoader) LoadData(zzContent string, yyContent string, dbname str
 	if dbname != "test" {
 		for i, d := range data {
 			if d == "USE test;" {
-				data[i] = fmt.Sprintf("USE %s;", dbname)
+				data[i] = fmt.Sprintf("USE %s", dbname)
+			}
+			if d == "CREATE SCHEMA /*!IF NOT EXISTS*/ test;" {
+				data[i] = fmt.Sprintf("CREATE SCHEMA /*!IF NOT EXISTS*/ %s", dbname)
 			}
 		}
 	}
@@ -90,7 +93,7 @@ func splitToDataAndGrammar(totalContent []byte) (data []string, grammar []string
 
 	gendataAndGrammar := strings.Split(content, "/* follow is grammar sql */;\n")
 
-	return strings.Split(gendataAndGrammar[0], "\n"), strings.Split(gendataAndGrammar[1], "\n")
+	return strings.Split(gendataAndGrammar[0], ";\n"), strings.Split(gendataAndGrammar[1], ";\n")
 }
 
 func (rl *RandgenLoader) Query() (sqls []string) {
