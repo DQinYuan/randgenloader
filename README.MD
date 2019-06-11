@@ -15,7 +15,7 @@ docker run -d --name randgen ddfddf/randgen-server
 docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
 ```
 
-然后即可通过该ip地址进行访问。
+然后即可通过该ip地址的9080端口进行访问。
 
 ## 接口描述
 
