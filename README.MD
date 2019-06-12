@@ -6,16 +6,10 @@
 提供Randgen sql生成器的http接口。
 
 ```shell
-docker run -d --name randgen ddfddf/randgen-server
+docker run -p 9080:9080 -d --name randgen ddfddf/randgen-server
 ```
 
-查看启动容器的ip地址：
-
-```shell
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' randgen
-```
-
-然后即可通过该ip地址的9080端口进行访问。
+然后即可通过该"localhost:9080"进行访问。
 
 ## 接口描述
 
